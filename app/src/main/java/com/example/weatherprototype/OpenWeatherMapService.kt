@@ -7,7 +7,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -34,10 +33,21 @@ private val retrofit = Retrofit.Builder()
 
 interface OpenWeatherMapServiceApi {
     @GET("weather")
-    suspend fun getCurrentWeather(@Query("q") cityName: String): CurrentWeatherResponse
+    suspend fun currentWeather(
+        @Query("q") location: String,
+    ): CurrentWeatherResponse
 
     @GET("forecast")
-    suspend fun getFiveDaysForecast(@Query("q") cityName: String): FiveDaysForecastResponse
+    suspend fun fiveDaysForecast(
+        @Query("q") location: String,
+    ): FiveDaysForecastResponse
+
+    @GET("onecall")
+    suspend fun oneCall(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("exclude") exclude: String? = null,
+    ): OneCalResponse
 }
 
 object OpenWeatherMapService {

@@ -7,6 +7,18 @@ import kotlinx.coroutines.FlowPreview
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-val store = StoreBuilder.from(
-    fetcher = Fetcher.of { location: String -> OpenWeatherMapService.retrofitService.getCurrentWeather(location) },
+val currentWeatherStore = StoreBuilder.from(
+    fetcher = Fetcher.of { location: String -> OpenWeatherMapService.retrofitService.currentWeather(location) },
+).build()
+
+@ExperimentalCoroutinesApi
+@FlowPreview
+val sevenDaysForecastStore = StoreBuilder.from(
+    fetcher = Fetcher.of { coord: Coord ->
+        OpenWeatherMapService.retrofitService.oneCall(
+            lat = coord.lat ?: 0.0,
+            lon = coord.lon ?: 0.0,
+            exclude = "current,minutely,hourly,alerts",
+        )
+    },
 ).build()
