@@ -36,6 +36,9 @@ android {
     }
 }
 
+// Stable Koin Version
+def koin_version = "2.1.6"
+
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -57,6 +60,15 @@ dependencies {
     implementation 'com.dropbox.mobile.store:store4:4.0.0-beta01'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-beta01'
     implementation 'com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.2.2'
+
+    // Koin for Android
+    implementation "org.koin:koin-android:$koin_version"
+    // or Koin for Lifecycle scoping
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    // or Koin for Android Architecture ViewModel
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    // or Koin for Android Fragment Factory (unstable version)
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
 
     //test
     testImplementation 'junit:junit:4.13.1'
