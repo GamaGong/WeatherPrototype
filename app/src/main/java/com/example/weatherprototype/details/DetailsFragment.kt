@@ -3,6 +3,7 @@ package com.example.weatherprototype.details
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.weatherprototype.R
 import com.example.weatherprototype.databinding.FragmentDetailsBinding
@@ -12,6 +13,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     // Without reflection
     private val viewBinding by viewBinding(FragmentDetailsBinding::bind)
+
+    private val args: DetailsFragmentArgs by navArgs()
 
     private val viewModel: DetailsViewModel by viewModel()
 

@@ -31,7 +31,7 @@ class DetailsViewModel(
     fun initialLoad() {
         viewModelScope.launch {
             getCurrentWeather.runWithResult(
-                arg = Location.Casual(name = "London", coordinates = Coordinates(0.0, 0.0)),
+                arg = Location(name = "London", coordinates = Coordinates(0.0, 0.0)),
                 handleResult = { result ->
                     _currentWeather.postValue(result.weather)
                 },
@@ -41,7 +41,7 @@ class DetailsViewModel(
             )
 
             getForecast.runWithResult(
-                arg = Location.Casual(name = "London", coordinates = Coordinates(0.0, 0.0)),
+                arg = Location(name = "London", coordinates = Coordinates(0.0, 0.0)),
                 handleResult = { result ->
                     _weatherForecast.postValue(result.weather)
                 },

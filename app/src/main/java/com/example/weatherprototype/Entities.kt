@@ -14,14 +14,14 @@ data class FavoriteLocation(
     val latitude: Double,
 ) {
     companion object {
-        fun fromDomain(location: Location.Favorite) = FavoriteLocation(
+        fun fromDomain(location: Location) = FavoriteLocation(
             name = location.name,
             longitude = location.coordinates.longitude,
             latitude = location.coordinates.latitude,
         )
     }
 
-    fun toDomain() = Location.Favorite(
+    fun toDomain() = Location(
         name = this.name,
         coordinates = Coordinates(
             latitude = latitude,

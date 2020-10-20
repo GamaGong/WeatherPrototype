@@ -1,15 +1,10 @@
 package com.example.weatherprototype.di
 
-import com.example.weatherprototype.OpenWeatherMapService
-import com.example.weatherprototype.OpenWeatherMapServiceApi
-import com.example.weatherprototype.WeatherDatabase
-import com.example.weatherprototype.WeatherStore
+import com.example.weatherprototype.*
 import com.example.weatherprototype.details.DetailsViewModel
 import com.example.weatherprototype.details.domain.GetCurrentWeather
 import com.example.weatherprototype.details.domain.GetForecast
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.bind
-import org.koin.dsl.binds
 import org.koin.dsl.module
 
 object KoinDi {
@@ -30,6 +25,7 @@ object KoinDi {
 
     private val viewModels = module {
         viewModel { DetailsViewModel(get(), get()) }
+        viewModel { WeatherListFragment.ViewModel() }
     }
 
     val koinModules = listOf(
