@@ -2,6 +2,7 @@ package com.example.weatherprototype
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.time.LocalDateTime
 
 @Parcelize
 data class Coordinates(
@@ -26,3 +27,23 @@ data class IconUrl(private val iconId: String) {
     val regular: String get() = "$iconUrlBase$regularIconUrlEnding"
     val large: String get() = "$iconUrlBase$largeIconUrlEnding"
 }
+
+data class CurrentWeather(
+    val coordinates: Coordinates,
+    val temperature: Int,
+    val weatherDescription: String,
+    val iconUrl: String,
+    val humidity: Int,
+    val pressure: Int,
+    val windSpeed: Int,
+    val sunriseTime: LocalDateTime,
+    val sunsetTime: LocalDateTime,
+    val weatherLocationName: String,
+)
+
+data class DayWeather(
+    val maxTemperature: Int,
+    val minTemperature: Int,
+    val iconUrl: String,
+    val date: LocalDateTime
+)

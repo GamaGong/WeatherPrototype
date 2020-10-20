@@ -35,6 +35,7 @@ interface OpenWeatherMapServiceApi {
     @GET("weather")
     suspend fun currentWeather(
         @Query("q") location: String,
+        @Query("units") units: String = "metric"
     ): CurrentWeatherResponse
 
     @GET("forecast")
@@ -47,6 +48,7 @@ interface OpenWeatherMapServiceApi {
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
         @Query("exclude") exclude: String? = null,
+        @Query("units") units: String = "metric"
     ): OneCalResponse
 }
 

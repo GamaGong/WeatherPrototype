@@ -43,7 +43,7 @@ data class Wind(
     //Wind direction, degrees (meteorological)
     val deg: Int?,
     //Wind gust. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour
-    val gust: Int?,
+    val gust: Double?,
 )
 
 data class Clouds(

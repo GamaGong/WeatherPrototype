@@ -104,25 +104,25 @@ class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
                     name = "London",
                     temperature = "+6",
                     weatherIconUrl = IconUrl("10d"),
-                    coordinates = Coordinates(latitude = -0.13, longitude = 51.51),
+                    coordinates = Coordinates(latitude = 51.51, longitude = -0.07),
                 ),
                 Item.Location(
                     name = "London",
                     temperature = "+6",
                     weatherIconUrl = IconUrl("10d"),
-                    coordinates = Coordinates(latitude = -0.13, longitude = 51.51),
+                    coordinates = Coordinates(latitude = 51.51, longitude = -0.07),
                 ),
                 Item.Location(
                     name = "London",
                     temperature = "+6",
                     weatherIconUrl = IconUrl("10d"),
-                    coordinates = Coordinates(latitude = -0.13, longitude = 51.51),
+                    coordinates = Coordinates(latitude = 51.51, longitude = -0.07),
                 ),
                 Item.Location(
                     name = "London",
                     temperature = "+6",
                     weatherIconUrl = IconUrl("10d"),
-                    coordinates = Coordinates(latitude = -0.13, longitude = 51.51),
+                    coordinates = Coordinates(latitude = 51.51, longitude = -0.07),
                 ),
             )
         }

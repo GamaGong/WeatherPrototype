@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">WeatherPrototype</string>
+    <string name="sunset">sunset</string>
+    <string name="sunrise">sunrise</string>
+    <string name="day_month">%d %s</string>
 </resources>

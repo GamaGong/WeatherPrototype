@@ -10,12 +10,20 @@
         <argument
             android:name="location"
             app:argType="com.example.weatherprototype.Location" />
+        <action
+            android:id="@+id/action_detailsFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:popUpTo="@id/listFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.weatherprototype.WeatherListFragment"
         android:label="ListFragment" >
         <action
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             android:id="@+id/action_listFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>

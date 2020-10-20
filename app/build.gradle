@@ -64,6 +64,7 @@ dependencies {
     implementation 'com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.2.2'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // Koin for Android
     implementation "org.koin:koin-android:$koin_version"

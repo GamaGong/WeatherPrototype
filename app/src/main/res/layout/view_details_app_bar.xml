@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appBarLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="com.google.android.material.appbar.AppBarLayout">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/collapsingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:collapsedTitleGravity="start|top"
+        app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+        app:titleEnabled="false">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:alpha="0.6"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_eezy_08" />
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/ContentInsetWithoutPadding"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/black"
+            app:layout_collapseMode="pin">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_arrow_back_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/detailsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:shadowColor="@color/black"
+                    android:shadowRadius="1"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Нижний Новгород" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_collapseMode="parallax"
+            app:layout_collapseParallaxMultiplier="0.5"
+            app:layout_scrollFlags="scroll|snap">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null">
+
+                <View
+                    android:elevation="1dp"
+                    android:layout_width="120dp"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/background_round_corners_15px"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:elevation="1dp"
+                    android:id="@+id/temperatureStub"
+                    android:layout_width="120dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="12dp"
+                    android:background="@drawable/background_round_corners_15px"
+                    android:textColor="@color/white"
+                    android:textSize="48sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="25 гр" />
+
+                <View
+                    android:elevation="1dp"
+                    android:id="@+id/sunriseTimeStub"
+                    android:layout_width="32dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/background_round_corners_15px"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/temperatureStub"
+                    app:layout_constraintEnd_toStartOf="@id/temperatureStub"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/temperatureStub"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="08:00" />
+
+                <View
+                    android:elevation="1dp"
+                    android:id="@+id/sunsetTimeStub"
+                    android:layout_width="32dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/background_round_corners_15px"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/temperatureStub"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/temperatureStub"
+                    app:layout_constraintTop_toTopOf="@id/temperatureStub"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="21:23" />
+
+                <View
+                    android:elevation="1dp"
+                    android:id="@+id/windSpeedStub"
+                    android:layout_width="50dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/background_round_corners_15px"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/temperatureStub"
+                    tools:text="8 m/s" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbarContent"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:layout_collapseMode="parallax"
+            app:layout_collapseParallaxMultiplier="0.5"
+            app:layout_scrollFlags="scroll|snap">
+
+            <TextView
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/weatherIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="25 гр" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/weatherIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1"
+                android:textColor="@color/white"
+                android:textSize="48sp"
+                tools:srcCompat="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/temperature"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sunriseTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/sunriseLabel"
+                app:layout_constraintEnd_toStartOf="@id/temperature"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/temperature"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="08:00" />
+
+            <TextView
+                android:id="@+id/sunriseLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1"
+                android:text="@string/sunrise"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/temperature"
+                app:layout_constraintEnd_toStartOf="@id/temperature"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sunriseTime" />
+
+            <TextView
+                android:id="@+id/sunsetTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/sunsetLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/weatherIcon"
+                app:layout_constraintTop_toTopOf="@id/temperature"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="21:23" />
+
+            <TextView
+                android:id="@+id/sunsetLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1"
+                android:text="@string/sunset"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/temperature"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/weatherIcon"
+                app:layout_constraintTop_toBottomOf="@id/sunsetTime" />
+
+            <TextView
+                android:id="@+id/weatherCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/windSpeed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/temperature"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Cloudy" />
+
+            <TextView
+                android:id="@+id/windSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/black"
+                android:shadowRadius="1"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/weatherCondition"
+                tools:text="8 m/s" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+</merge>

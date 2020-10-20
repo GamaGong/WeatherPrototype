@@ -4,36 +4,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherprototype.Coordinates
-import com.example.weatherprototype.CurrentWeatherResponse
 import com.example.weatherprototype.Location
 import com.example.weatherprototype.OneCalResponse
 import com.example.weatherprototype.common.runWithResult
 import com.example.weatherprototype.details.domain.GetCurrentWeather
 import com.example.weatherprototype.details.domain.GetForecast
+import com.example.weatherprototype.details.list.DetailsListItem
+import com.example.weatherprototype.details.view.HeaderWeather
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val getCurrentWeather: GetCurrentWeather,
     private val getForecast: GetForecast,
 ) : ViewModel() {
-    private val _currentWeather: MutableLiveData<CurrentWeatherResponse> =
-        MutableLiveData<CurrentWeatherResponse>()
-    val currentWeather: LiveData<CurrentWeatherResponse> = _currentWeather
+    private val _currentWeather: MutableLiveData<HeaderWeather> =
+        MutableLiveData<HeaderWeather>()
+    val currentWeather: LiveData<HeaderWeather> = _currentWeather
 
-    private val _weatherForecast: MutableLiveData<OneCalResponse> =
-        MutableLiveData<OneCalResponse>()
-    val weatherForecast: LiveData<OneCalResponse> = _weatherForecast
+    private val _weatherForecast: MutableLiveData<List<DetailsListItem>> =
+        MutableLiveData<List<DetailsListItem>>()
+    val weatherForecast: LiveData<List<DetailsListItem>> = _weatherForecast
 
     private val _errors: MutableLiveData<Throwable> = MutableLiveData<Throwable>()
     val errors: LiveData<Throwable> = _errors
 
-    fun initialLoad() {
+    fun initialLoad(location: Location) {
         viewModelScope.launch {
             getCurrentWeather.runWithResult(
-                arg = Location(name = "London", coordinates = Coordinates(0.0, 0.0)),
+                arg = Location(name = location.name, coordinates = location.coordinates),
                 handleResult = { result ->
-                    _currentWeather.postValue(result.weather)
+                    _currentWeather.postValue(result)
                 },
                 handleError = { error ->
                     _errors.postValue(error)
@@ -41,9 +41,9 @@ class DetailsViewModel(
             )
 
             getForecast.runWithResult(
-                arg = Location(name = "London", coordinates = Coordinates(0.0, 0.0)),
+                arg = Location(name = location.name, coordinates = location.coordinates),
                 handleResult = { result ->
-                    _weatherForecast.postValue(result.weather)
+                    _weatherForecast.postValue(result)
                 },
                 handleError = { error ->
                     _errors.postValue(error)
