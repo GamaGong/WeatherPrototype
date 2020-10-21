@@ -14,7 +14,7 @@ fun CurrentWeatherResponse.toDomainModel(): CurrentWeather = CurrentWeather(
     ),
     temperature = this.main?.temp?.toInt() ?: 0,
     weatherDescription = this.weather?.get(0)?.description ?: "",
-    iconUrl = this.weather?.get(0)?.icon ?: "",
+    iconUrl = IconUrl(this.weather?.get(0)?.icon ?: ""),
     humidity = this.main?.humidity ?: 0,
     pressure = this.main?.pressure ?: 0,
     windSpeed = this.wind?.speed?.toInt() ?: 0,

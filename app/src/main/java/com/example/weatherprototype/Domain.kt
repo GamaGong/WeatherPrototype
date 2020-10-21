@@ -32,7 +32,7 @@ data class CurrentWeather(
     val location: Location,
     val temperature: Int,
     val weatherDescription: String,
-    val iconUrl: String,
+    val iconUrl: IconUrl,
     val humidity: Int,
     val pressure: Int,
     val windSpeed: Int,

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide
 import com.example.weatherprototype.databinding.FragmentWeatherListBinding
 import com.example.weatherprototype.databinding.WeatherListScreenHeaderItemBinding
 import com.example.weatherprototype.databinding.WeatherListScreenLocationItemBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.map
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.lifecycle.ViewModel as AndroidxLifecycleViewModel
 import com.example.weatherprototype.Location as DomainLocation
@@ -23,8 +26,12 @@ import com.example.weatherprototype.Location as DomainLocation
 class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
     private val viewBinding by viewBinding(FragmentWeatherListBinding::bind)
 
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     private val viewModel: ViewModel by viewModel()
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = Adapter()
@@ -45,13 +52,15 @@ class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
         }
 
         sealed class Holder(viewBinding: ViewBinding) : RecyclerView.ViewHolder(viewBinding.root) {
-            class Header(private val binding: WeatherListScreenHeaderItemBinding) : Holder(binding) {
+            class Header(private val binding: WeatherListScreenHeaderItemBinding) :
+                Holder(binding) {
                 fun bindTo(item: Item.Header) {
                     binding.title.text = item.title
                 }
             }
 
-            class Location(private val binding: WeatherListScreenLocationItemBinding) : Holder(binding) {
+            class Location(private val binding: WeatherListScreenLocationItemBinding) :
+                Holder(binding) {
                 fun bindTo(item: Item.Location) {
                     binding.apply {
                         name.text = item.name
@@ -61,7 +70,11 @@ class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
                             .into(icon)
                         root.setOnClickListener {
                             it.findNavController()
-                                .navigate(WeatherListFragmentDirections.actionListFragmentToDetailsFragment(item.toDomain()))
+                                .navigate(
+                                    WeatherListFragmentDirections.actionListFragmentToDetailsFragment(
+                                        item.toDomain()
+                                    )
+                                )
                         }
                     }
                 }
@@ -98,39 +111,15 @@ class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
         }
     }
 
-    class ViewModel : AndroidxLifecycleViewModel() {
-        private val _items = MutableLiveData<List<Item>>()
-        val items: LiveData<List<Item>> get() = _items
-
-        init {
-            _items.value = listOf(
-                Item.Header.favorites,
-                Item.Location(
-                    name = "London",
-                    temperature = "+6",
-                    weatherIconUrl = IconUrl("10d"),
-                    coordinates = Coordinates(latitude = 51.51, longitude = -0.07),
-                ),
-                Item.Location(
-                    name = "London",
-                    temperature = "+6",
-                    weatherIconUrl = IconUrl("10d"),
-                    coordinates = Coordinates(latitude = 51.51, longitude = -0.07),
-                ),
-                Item.Location(
-                    name = "London",
-                    temperature = "+6",
-                    weatherIconUrl = IconUrl("10d"),
-                    coordinates = Coordinates(latitude = 51.51, longitude = -0.07),
-                ),
-                Item.Location(
-                    name = "London",
-                    temperature = "+6",
-                    weatherIconUrl = IconUrl("10d"),
-                    coordinates = Coordinates(latitude = 51.51, longitude = -0.07),
-                ),
-            )
-        }
+    @ExperimentalCoroutinesApi
+    @FlowPreview
+    class ViewModel(private val weatherStore: WeatherStore) : AndroidxLifecycleViewModel() {
+        val items: LiveData<List<Item>>
+            get() = weatherStore.getFavoritesLocations().map { list ->
+                val favoriteLocations =
+                    list.map { Item.Location.fromDomain(weatherStore.getCurrentWeatherByName(it.name)) }
+                mutableListOf<Item>(Item.Header.favorites) + favoriteLocations
+            }.asLiveData()
     }
 
     sealed class Item {
@@ -146,6 +135,15 @@ class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
             val weatherIconUrl: IconUrl,
             val coordinates: Coordinates,
         ) : Item() {
+            companion object {
+                fun fromDomain(weather: CurrentWeather) = Location(
+                    name = weather.location.name,
+                    coordinates = weather.location.coordinates,
+                    weatherIconUrl = weather.iconUrl,
+                    temperature = "${weather.temperature} \u2103"
+                )
+            }
+
             fun toDomain() = DomainLocation(
                 name = name,
                 coordinates = coordinates,

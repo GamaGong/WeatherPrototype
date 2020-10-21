@@ -9,11 +9,11 @@ import com.example.weatherprototype.common.UseCase
  */
 class ChangeFavouriteState(private val weatherStore: WeatherStore) : UseCase<Location, Boolean> {
     override suspend fun run(arg: Location): Boolean {
-        if (weatherStore.getFavoritesLocations().find { it.name == arg.name } != null) {
+        if (weatherStore.getFavoritesLocationsSuspend().find { it.name == arg.name } != null) {
             weatherStore.removeFavoriteLocation(arg.name)
         } else {
             weatherStore.addFavoriteLocation(arg)
         }
-        return weatherStore.getFavoritesLocations().find { it.name == arg.name } != null
+        return weatherStore.getFavoritesLocationsSuspend().find { it.name == arg.name } != null
     }
 }

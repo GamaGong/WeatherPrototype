@@ -5,6 +5,7 @@ import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.get
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.map
 
 class WeatherStore(
     private val database: WeatherDatabase,
@@ -39,7 +40,8 @@ class WeatherStore(
         sevenDaysForecastStore.get(location.coordinates)
             .toDomainModel()
 
-    suspend fun getFavoritesLocations() = database.favoriteDao.getAll().map { it.toDomain() }
+    fun getFavoritesLocations() = database.favoriteDao.getAll().map { list -> list.map { it.toDomain() } }
+    suspend fun getFavoritesLocationsSuspend() = database.favoriteDao.getAllSuspend()
 
     suspend fun addFavoriteLocation(location: Location) =
         database.favoriteDao.insert(FavoriteLocation.fromDomain(location))

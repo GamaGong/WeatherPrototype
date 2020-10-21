@@ -15,7 +15,7 @@ class GetCurrentWeather(private val weatherStore: WeatherStore) :
     @FlowPreview
     @ExperimentalCoroutinesApi
     override suspend fun run(arg: Location): HeaderWeather {
-        val isFavourite = weatherStore.getFavoritesLocations().find { it.name == arg.name } != null
+        val isFavourite = weatherStore.getFavoritesLocationsSuspend().find { it.name == arg.name } != null
         return weatherStore.getCurrentWeatherByName(arg.name)
             .toUiModel(isFavourite)
     }
@@ -25,7 +25,7 @@ private fun CurrentWeather.toUiModel(isFavourite: Boolean): HeaderWeather = Head
     temperature = "${this.temperature} \u2103",
     description = this.weatherDescription,
     windSpeed = "${this.windSpeed} m/s",
-    iconUrl = IconUrl(this.iconUrl),
+    iconUrl = iconUrl,
     sunriseTime = this.sunriseTime,
     sunsetTime = this.sunsetTime,
     weatherLocationName = this.location.name,

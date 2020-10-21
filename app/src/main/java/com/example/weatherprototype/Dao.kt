@@ -1,6 +1,7 @@
 package com.example.weatherprototype
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteDao {
@@ -20,5 +21,7 @@ interface FavoriteDao {
     suspend fun clear()
 
     @Query("select * from favorite_locations_table order by location_name desc")
-    suspend fun getAll(): List<FavoriteLocation>
+    fun getAll(): Flow<List<FavoriteLocation>>
+    @Query("select * from favorite_locations_table order by location_name desc")
+    suspend fun getAllSuspend(): List<FavoriteLocation>
 }
