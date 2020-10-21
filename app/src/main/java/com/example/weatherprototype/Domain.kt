@@ -29,7 +29,7 @@ data class IconUrl(private val iconId: String) {
 }
 
 data class CurrentWeather(
-    val coordinates: Coordinates,
+    val location: Location,
     val temperature: Int,
     val weatherDescription: String,
     val iconUrl: String,
@@ -38,7 +38,6 @@ data class CurrentWeather(
     val windSpeed: Int,
     val sunriseTime: LocalDateTime,
     val sunsetTime: LocalDateTime,
-    val weatherLocationName: String,
 )
 
 data class DayWeather(

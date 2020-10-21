@@ -30,13 +30,14 @@ class WeatherStore(
 
     @FlowPreview
     @ExperimentalCoroutinesApi
-    suspend fun getCurrentWeather(location: Location) = currentWeatherStore.get(location.name)
-        .toDomainModel()
+    suspend fun getCurrentWeatherByName(locationName: String) =
+        currentWeatherStore.get(locationName).toDomainModel()
 
     @FlowPreview
     @ExperimentalCoroutinesApi
-    suspend fun getSevenDaysFore(location: Location) = sevenDaysForecastStore.get(location.coordinates)
-        .toDomainModel()
+    suspend fun getSevenDaysFore(location: Location) =
+        sevenDaysForecastStore.get(location.coordinates)
+            .toDomainModel()
 
     suspend fun getFavoritesLocations() = database.favoriteDao.getAll().map { it.toDomain() }
 

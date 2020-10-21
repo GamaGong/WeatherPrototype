@@ -5,9 +5,12 @@ import java.time.ZoneOffset
 
 
 fun CurrentWeatherResponse.toDomainModel(): CurrentWeather = CurrentWeather(
-    coordinates = Coordinates(
-        latitude = this.coord?.lat ?: 0.0,
-        longitude = this.coord?.lon ?: 0.0
+    location = Location(
+        name = this.name ?: "",
+        coordinates = Coordinates(
+            latitude = this.coord?.lat ?: 0.0,
+            longitude = this.coord?.lon ?: 0.0
+        )
     ),
     temperature = this.main?.temp?.toInt() ?: 0,
     weatherDescription = this.weather?.get(0)?.description ?: "",
@@ -25,7 +28,6 @@ fun CurrentWeatherResponse.toDomainModel(): CurrentWeather = CurrentWeather(
         0,
         ZoneOffset.ofTotalSeconds(this.timezone ?: 0)
     ),
-    weatherLocationName = this.name ?: ""
 )
 
 fun OneCalResponse.toDomainModel(): List<DayWeather> {

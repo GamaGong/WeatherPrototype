@@ -26,6 +26,7 @@ object KoinDi {
     private val viewModels = module {
         viewModel { DetailsViewModel(get(), get()) }
         viewModel { WeatherListFragment.ViewModel() }
+        viewModel { SearchDialog.ViewModel(get()) }
     }
 
     val koinModules = listOf(

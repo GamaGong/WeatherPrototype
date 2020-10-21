@@ -8,7 +8,6 @@ import com.example.weatherprototype.common.UseCase
 import com.example.weatherprototype.details.view.HeaderWeather
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import java.time.LocalDateTime
 
 class GetCurrentWeather(private val weatherStore: WeatherStore) :
     UseCase<Location, HeaderWeather> {
@@ -16,7 +15,7 @@ class GetCurrentWeather(private val weatherStore: WeatherStore) :
     @FlowPreview
     @ExperimentalCoroutinesApi
     override suspend fun run(arg: Location): HeaderWeather {
-        return weatherStore.getCurrentWeather(arg)
+        return weatherStore.getCurrentWeatherByName(arg.name)
             .toUiModel()
     }
 }
@@ -27,6 +26,6 @@ private fun CurrentWeather.toUiModel(): HeaderWeather = HeaderWeather(
     windSpeed = "${this.windSpeed} m/s",
     iconUrl = IconUrl(this.iconUrl),
     sunriseTime = this.sunriseTime,
-    sunsetTime =this.sunsetTime,
-    weatherLocationName = this.weatherLocationName
+    sunsetTime = this.sunsetTime,
+    weatherLocationName = this.location.name,
 )

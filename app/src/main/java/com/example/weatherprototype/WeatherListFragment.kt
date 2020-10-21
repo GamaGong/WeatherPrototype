@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,6 +17,7 @@ import com.example.weatherprototype.databinding.FragmentWeatherListBinding
 import com.example.weatherprototype.databinding.WeatherListScreenHeaderItemBinding
 import com.example.weatherprototype.databinding.WeatherListScreenLocationItemBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.lifecycle.ViewModel as AndroidxLifecycleViewModel
 import com.example.weatherprototype.Location as DomainLocation
 
 class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
@@ -26,6 +28,9 @@ class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = Adapter()
+        viewBinding.searchButton.setOnClickListener {
+            findNavController().navigate(WeatherListFragmentDirections.actionListFragmentToSearchDialog())
+        }
         viewBinding.recycler.adapter = adapter
         viewModel.items.observe(viewLifecycleOwner) { adapter.updateItems(it) }
     }
@@ -93,13 +98,13 @@ class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
         }
     }
 
-    class ViewModel : androidx.lifecycle.ViewModel() {
+    class ViewModel : AndroidxLifecycleViewModel() {
         private val _items = MutableLiveData<List<Item>>()
         val items: LiveData<List<Item>> get() = _items
 
         init {
             _items.value = listOf(
-                Item.Header(title = "Favorites"),
+                Item.Header.favorites,
                 Item.Location(
                     name = "London",
                     temperature = "+6",
@@ -129,7 +134,12 @@ class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
     }
 
     sealed class Item {
-        data class Header(val title: String) : Item()
+        data class Header(val title: String) : Item() {
+            companion object {
+                val favorites get() = Header(title = "Favorites")
+            }
+        }
+
         data class Location(
             val name: String,
             val temperature: String,
