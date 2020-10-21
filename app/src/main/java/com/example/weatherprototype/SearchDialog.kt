@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.ResultReceiver
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,9 +42,16 @@ class SearchDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewBinding.searchButton.setOnClickListener {
-            viewBinding.searchEditText.text?.let { editable ->
-                val text = editable.toString()
-                if (text.isNotBlank()) viewModel.search(text)
+            viewBinding.searchEditText.text?.let(::search)
+        }
+
+        viewBinding.searchEditText.setOnEditorActionListener { textView, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    textView.text?.let(::search)
+                    true
+                }
+                else -> false
             }
         }
 
@@ -64,6 +73,13 @@ class SearchDialog : BottomSheetDialogFragment() {
                 showKeyboard(requireContext(), viewBinding.searchEditText)
             }
         }
+    }
+
+    @FlowPreview
+    @ExperimentalCoroutinesApi
+    private fun search(charSequence: CharSequence) {
+        val text = charSequence.toString()
+        if (text.isNotBlank()) viewModel.search(text)
     }
 
     private fun clearState() {
