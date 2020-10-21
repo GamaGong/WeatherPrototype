@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.weatherprototype.R
 import com.example.weatherprototype.databinding.FragmentDetailsBinding
-import com.example.weatherprototype.details.list.DetailsListAdapter
+import com.example.weatherprototype.details.pager.DetailsPagerAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
@@ -22,7 +22,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val viewModel: DetailsViewModel by viewModel()
 
-    private val weatherAdapter = DetailsListAdapter()
+    private val weatherPagerAdapter = DetailsPagerAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.initialLoad(args.location)
@@ -34,7 +34,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         })
 
         viewModel.weatherForecast.observe(viewLifecycleOwner, {
-            weatherAdapter.updateItems(it)
+            TabLayoutMediator(viewBinding.tabLayout, viewBinding.content) { tab, position ->
+                tab.text = String.format(
+                    resources.getString(R.string.days_pattern),
+                    it[position].listItems.size
+                )
+            }.attach()
+
+            weatherPagerAdapter.updateItems(it)
         })
 
         viewModel.errors.observe(viewLifecycleOwner, {
@@ -53,8 +60,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
 
         viewBinding.content.apply {
-            adapter = weatherAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            adapter = weatherPagerAdapter
         }
     }
 }

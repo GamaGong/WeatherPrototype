@@ -10,6 +10,8 @@ import com.example.weatherprototype.details.domain.ChangeFavouriteState
 import com.example.weatherprototype.details.domain.GetCurrentWeather
 import com.example.weatherprototype.details.domain.GetForecast
 import com.example.weatherprototype.details.list.DetailsListItem
+import com.example.weatherprototype.details.pager.DetailsPagerAdapter
+import com.example.weatherprototype.details.pager.DetailsPagerAdapter.DetailsPagerItem
 import com.example.weatherprototype.details.view.HeaderWeather
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,9 +25,9 @@ class DetailsViewModel(
         MutableLiveData<HeaderWeather>()
     val currentWeather: LiveData<HeaderWeather> = _currentWeather
 
-    private val _weatherForecast: MutableLiveData<List<DetailsListItem>> =
-        MutableLiveData<List<DetailsListItem>>()
-    val weatherForecast: LiveData<List<DetailsListItem>> = _weatherForecast
+    private val _weatherForecast: MutableLiveData<List<DetailsPagerItem>> =
+        MutableLiveData<List<DetailsPagerItem>>()
+    val weatherForecast: LiveData<List<DetailsPagerItem>> = _weatherForecast
 
     private val _errors: MutableLiveData<Throwable> = MutableLiveData<Throwable>()
     val errors: LiveData<Throwable> = _errors

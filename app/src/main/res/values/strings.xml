@@ -5,4 +5,5 @@
     <string name="day_month">%d %s</string>
     <string name="location_not_found_error">Location not found</string>
     <string name="location_name">Location name</string>
+    <string name="days_pattern">%d days</string>
 </resources>
