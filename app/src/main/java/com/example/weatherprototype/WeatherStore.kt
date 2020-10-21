@@ -43,4 +43,7 @@ class WeatherStore(
 
     suspend fun addFavoriteLocation(location: Location) =
         database.favoriteDao.insert(FavoriteLocation.fromDomain(location))
+
+    suspend fun removeFavoriteLocation(locationName: String) =
+        database.favoriteDao.remove(locationName)
 }

@@ -7,6 +7,9 @@ interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(favoriteLocation: FavoriteLocation)
 
+    @Query("delete from favorite_locations_table where location_name = :name")
+    suspend fun remove(name: String)
+
     @Update
     suspend fun update(favoriteLocation: FavoriteLocation)
 

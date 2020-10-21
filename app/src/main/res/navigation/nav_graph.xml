@@ -10,10 +10,6 @@
         <argument
             android:name="location"
             app:argType="com.example.weatherprototype.Location" />
-        <action
-            android:id="@+id/action_detailsFragment_to_listFragment"
-            app:destination="@id/listFragment"
-            app:popUpTo="@id/listFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"

@@ -1,9 +1,14 @@
 package com.example.weatherprototype
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.ResultReceiver
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,9 +16,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.weatherprototype.databinding.SearchDialogBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.lifecycle.ViewModel as AndroidxLifecycleViewModel
 
@@ -49,6 +52,16 @@ class SearchDialog : BottomSheetDialogFragment() {
                 State.Loading -> loading()
                 State.Error -> error()
                 is State.NavigateToDetails -> toDetails(state.location)
+            }
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        GlobalScope.launch(Dispatchers.Default) {
+            delay(200)
+            withContext(Dispatchers.Main) {
+                showKeyboard(requireContext(), viewBinding.searchEditText)
             }
         }
     }
@@ -114,4 +127,13 @@ class SearchDialog : BottomSheetDialogFragment() {
             }
         }
     }
+}
+
+fun showKeyboard(context: Context, view: View) {
+    view.requestFocus()
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT, object: ResultReceiver(Handler(Looper.getMainLooper()) {
+        print("kek" + it.toString())
+        true
+    }){})
 }

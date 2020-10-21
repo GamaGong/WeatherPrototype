@@ -48,6 +48,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         viewBinding.appBarLayout.onBackPressed = {
             it.findNavController().popBackStack()
         }
+        viewBinding.appBarLayout.onFeaturedChecked = {
+            viewModel.featuredChecked()
+        }
 
         viewBinding.content.apply {
             adapter = weatherAdapter

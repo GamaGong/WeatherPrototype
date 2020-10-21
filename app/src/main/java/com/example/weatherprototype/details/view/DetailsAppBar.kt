@@ -4,9 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.example.weatherprototype.IconUrl
+import com.example.weatherprototype.R
 import com.example.weatherprototype.databinding.ViewDetailsAppBarBinding
 import com.example.weatherprototype.details.util.ToolbarOffsetChangedListener
 import com.google.android.material.appbar.AppBarLayout
@@ -21,6 +23,7 @@ class DetailsAppBar : AppBarLayout {
     private val binding get() = _binding!!
 
     var onBackPressed: (View) -> Unit = {}
+    var onFeaturedChecked: () -> Unit = {}
 
     init {
         _binding = ViewDetailsAppBarBinding.inflate(LayoutInflater.from(context), this)
@@ -32,6 +35,7 @@ class DetailsAppBar : AppBarLayout {
             ToolbarOffsetChangedListener(binding.toolbarContent, binding.toolbar, 0F)
         )
         binding.back.setOnClickListener { onBackPressed(it) }
+        binding.featuredStar.setOnClickListener { onFeaturedChecked() }
     }
 
     fun lock() {
@@ -55,6 +59,11 @@ class DetailsAppBar : AppBarLayout {
         binding.weatherCondition.text = weather.description
         binding.windSpeed.text = weather.windSpeed
         binding.detailsTitle.text = weather.weatherLocationName
+        binding.featuredStar.background = if (weather.isFeatured) {
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_star_24, null)
+        } else {
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_star_outline_24, null)
+        }
         Glide.with(this)
             .load(weather.iconUrl.large)
             .into(binding.weatherIcon)
@@ -70,4 +79,5 @@ data class HeaderWeather(
     val sunriseTime: LocalDateTime,
     val sunsetTime: LocalDateTime,
     val weatherLocationName: String,
+    val isFeatured: Boolean
 )
