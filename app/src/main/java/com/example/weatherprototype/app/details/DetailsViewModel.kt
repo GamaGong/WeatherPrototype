@@ -20,14 +20,14 @@ class DetailsViewModel(
     private val changeFavouriteState: ChangeFavouriteState
 ) : ViewModel() {
     private val _currentWeather: MutableLiveData<HeaderWeather> =
-        MutableLiveData<HeaderWeather>()
+        MutableLiveData()
     val currentWeather: LiveData<HeaderWeather> = _currentWeather
 
     private val _weatherForecast: MutableLiveData<List<DetailsPagerItem>> =
-        MutableLiveData<List<DetailsPagerItem>>()
+        MutableLiveData()
     val weatherForecast: LiveData<List<DetailsPagerItem>> = _weatherForecast
 
-    private val _errors: MutableLiveData<Throwable> = MutableLiveData<Throwable>()
+    private val _errors: MutableLiveData<Throwable> = MutableLiveData()
     val errors: LiveData<Throwable> = _errors
 
     private var savedLocation: Location? = null

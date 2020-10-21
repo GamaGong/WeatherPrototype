@@ -69,6 +69,7 @@ class DetailsAppBar : AppBarLayout {
             } else {
                 ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_star_outline_24, null)
             }
+            featuredStar.isVisible = !weather.isHardcoded
             Glide.with(this@DetailsAppBar)
                 .load(weather.iconUrl.large)
                 .into(weatherIcon)
@@ -86,4 +87,5 @@ data class HeaderWeather(
     val sunsetTime: LocalDateTime,
     val weatherLocationName: String,
     val isFeatured: Boolean,
+    val isHardcoded: Boolean
 )

@@ -20,7 +20,7 @@ class GetForecast(private val weatherStore: WeatherStore) :
                 it.toUiModel()
             }
         return listOf(
-            DetailsPagerItem(sevenDays),
+            DetailsPagerItem(sevenDays.subList(0, 7)),
             DetailsPagerItem(sevenDays.subList(0, 3))
         )
     }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherprototype.R
+import com.example.weatherprototype.app.list.ConstWeather.hardcodedLocations
 import com.example.weatherprototype.database.HardCodedLocation
 import com.example.weatherprototype.database.WeatherDatabase
 import kotlinx.coroutines.launch
@@ -20,25 +21,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 }
 
 class MainActivityViewModel(weatherDatabase: WeatherDatabase) : ViewModel() {
-    companion object {
-        private val moscow = HardCodedLocation(
-            name = "Moscow",
-            longitude = 37.62,
-            latitude = 55.75,
-        )
-
-        private val minsk = HardCodedLocation(
-            name = "Minsk",
-            longitude = 27.57,
-            latitude = 53.9,
-        )
-    }
-
     init {
         viewModelScope.launch {
-            weatherDatabase.hardCodedDao.apply {
-                insert(moscow)
-                insert(minsk)
+            hardcodedLocations.forEach {
+                weatherDatabase.hardCodedDao.insert(it)
             }
         }
     }
