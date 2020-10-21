@@ -5,15 +5,15 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.weatherprototype.details.DetailsFragment"
+        android:name="com.example.weatherprototype.app.details.DetailsFragment"
         android:label="DetailsFragment" >
         <argument
             android:name="location"
-            app:argType="com.example.weatherprototype.Location" />
+            app:argType="com.example.weatherprototype.app.Location" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.weatherprototype.WeatherListFragment"
+        android:name="com.example.weatherprototype.app.list.WeatherListFragment"
         android:label="ListFragment">
         <action
             app:enterAnim="@anim/fragment_open_enter"
@@ -28,7 +28,7 @@
     </fragment>
     <dialog
         android:id="@+id/searchDialog"
-        android:name="com.example.weatherprototype.SearchDialog"
+        android:name="com.example.weatherprototype.app.search.SearchDialog"
         android:label="SearchDialog">
         <action
             android:id="@+id/action_searchDialog_to_detailsFragment"
