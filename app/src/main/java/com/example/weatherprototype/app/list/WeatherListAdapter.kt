@@ -20,6 +20,16 @@ class WeatherListAdapter : RecyclerView.Adapter<WeatherListAdapter.Holder>() {
     }
 
     sealed class Holder(viewBinding: ViewBinding) : RecyclerView.ViewHolder(viewBinding.root) {
+
+        companion object {
+            private val cardColors = listOf(
+                R.color.purple_200,
+                R.color.green_200,
+                R.color.red_200,
+                R.color.blue_200
+            )
+        }
+
         class Header(private val binding: WeatherListScreenHeaderItemBinding) :
             Holder(binding) {
             fun bindTo(item: WeatherListItem.Header) {
@@ -29,14 +39,14 @@ class WeatherListAdapter : RecyclerView.Adapter<WeatherListAdapter.Holder>() {
 
         class Location(private val binding: WeatherListScreenLocationItemBinding) :
             Holder(binding) {
-            fun bindTo(item: WeatherListItem.LocationWeather) {
+            fun bindTo(item: WeatherListItem.LocationWeather, position: Int) {
                 binding.apply {
                     name.text = item.name
                     temperature.text = item.temperature
                     Glide.with(this@Location.itemView)
                         .load(item.weatherIconUrl.regular)
                         .into(icon)
-                    root.setOnClickListener {
+                    card.setOnClickListener {
                         it.findNavController()
                             .navigate(
                                 WeatherListFragmentDirections.actionListFragmentToDetailsFragment(
@@ -44,6 +54,11 @@ class WeatherListAdapter : RecyclerView.Adapter<WeatherListAdapter.Holder>() {
                                 )
                             )
                     }
+                    card.setCardBackgroundColor(
+                        root.context.getColor(
+                            cardColors[(position + 1) % cardColors.size]
+                        )
+                    )
                 }
             }
         }
@@ -65,7 +80,10 @@ class WeatherListAdapter : RecyclerView.Adapter<WeatherListAdapter.Holder>() {
     override fun onBindViewHolder(holder: Holder, position: Int) {
         when (holder) {
             is Holder.Header -> holder.bindTo(items[position] as WeatherListItem.Header)
-            is Holder.Location -> holder.bindTo(items[position] as WeatherListItem.LocationWeather)
+            is Holder.Location -> holder.bindTo(
+                items[position] as WeatherListItem.LocationWeather,
+                position
+            )
         }
     }
 
