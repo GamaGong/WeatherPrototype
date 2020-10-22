@@ -12,6 +12,7 @@ import com.example.weatherprototype.databinding.FragmentDetailsBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
@@ -20,12 +21,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val args: DetailsFragmentArgs by navArgs()
 
-    private val viewModel: DetailsViewModel by viewModel()
+    private val viewModel: DetailsViewModel by viewModel { parametersOf(args.location) }
 
     private val weatherPagerAdapter = DetailsPagerAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.initialLoad(args.location)
         viewBinding.appBarLayout.lock()
 
         viewModel.currentWeather.observe(viewLifecycleOwner, {

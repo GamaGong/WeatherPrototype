@@ -1,6 +1,7 @@
 package com.example.weatherprototype.di
 
 import androidx.room.Room
+import com.example.weatherprototype.app.Location
 import com.example.weatherprototype.app.MainActivityViewModel
 import com.example.weatherprototype.app.WeatherStore
 import com.example.weatherprototype.app.details.DetailsViewModel
@@ -67,7 +68,7 @@ object KoinDi {
     }
 
     private val viewModels = module {
-        viewModel { DetailsViewModel(get(), get(), get()) }
+        viewModel {(location: Location) -> DetailsViewModel(get(), get(), get(), location = location) }
         viewModel { WeatherListViewModel(get()) }
         viewModel { SearchDialogViewModel(get()) }
         viewModel { MainActivityViewModel(get()) }
