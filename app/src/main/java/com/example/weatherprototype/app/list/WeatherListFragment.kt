@@ -15,8 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class WeatherListFragment : Fragment(R.layout.fragment_weather_list) {
     private val viewBinding by viewBinding(FragmentWeatherListBinding::bind)
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
     private val viewModel: WeatherListViewModel by viewModel()
 
     @ExperimentalCoroutinesApi

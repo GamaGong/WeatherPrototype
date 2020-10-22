@@ -1,20 +1,21 @@
 package com.example.weatherprototype.di
 
+import androidx.room.Room
 import com.example.weatherprototype.app.MainActivityViewModel
 import com.example.weatherprototype.app.WeatherStore
-import com.example.weatherprototype.database.WeatherDatabase
 import com.example.weatherprototype.app.details.DetailsViewModel
 import com.example.weatherprototype.app.details.domain.ChangeFavouriteState
 import com.example.weatherprototype.app.details.domain.GetCurrentWeather
 import com.example.weatherprototype.app.details.domain.GetForecast
 import com.example.weatherprototype.app.list.WeatherListViewModel
+import com.example.weatherprototype.app.list.domain.GetWeatherList
 import com.example.weatherprototype.app.search.SearchDialogViewModel
+import com.example.weatherprototype.app.search.domain.SearchLocation
+import com.example.weatherprototype.database.WeatherDatabase
 import com.example.weatherprototype.network.AuthenticationInterceptor
 import com.example.weatherprototype.network.OpenWeatherMapServiceApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -47,7 +48,13 @@ object KoinDi {
     }
 
     private val dataModule = module {
-        single { WeatherDatabase.getInstance(get()) }
+        single {
+            Room.databaseBuilder(
+                get(),
+                WeatherDatabase::class.java,
+                "weather_database"
+            ).fallbackToDestructiveMigration().build()
+        }
         single { WeatherStore(get(), get()) }
     }
 
@@ -55,10 +62,10 @@ object KoinDi {
         factory { GetCurrentWeather(get()) }
         factory { GetForecast(get()) }
         factory { ChangeFavouriteState(get()) }
+        factory { SearchLocation(get()) }
+        factory { GetWeatherList(get()) }
     }
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
     private val viewModels = module {
         viewModel { DetailsViewModel(get(), get(), get()) }
         viewModel { WeatherListViewModel(get()) }
@@ -66,8 +73,6 @@ object KoinDi {
         viewModel { MainActivityViewModel(get()) }
     }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
     val koinModules = listOf(
         serviceModule,
         dataModule,

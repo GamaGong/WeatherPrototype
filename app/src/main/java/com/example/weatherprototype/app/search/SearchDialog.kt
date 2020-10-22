@@ -116,7 +116,9 @@ class SearchDialog : BottomSheetDialogFragment() {
 fun showKeyboard(context: Context, view: View) {
     view.requestFocus()
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT, object: ResultReceiver(Handler(Looper.getMainLooper()) {
-        true
-    }){})
+    imm.showSoftInput(
+        view,
+        InputMethodManager.SHOW_IMPLICIT,
+        object : ResultReceiver(Handler(Looper.getMainLooper()) { true }) {},
+    )
 }
